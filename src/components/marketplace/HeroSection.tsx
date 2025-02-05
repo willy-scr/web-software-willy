@@ -4,6 +4,8 @@ import { Button } from "../ui/button";
 import ProductCard from "./ProductCard";
 import { Search } from "lucide-react";
 import { BubbleAnimation } from "../ui/bubble-animation";
+import { AnimatedGradientText } from "../ui/animated-gradient-text";
+import { GradientBorder } from "../ui/gradient-border";
 
 interface HeroSectionProps {
   title?: string;
@@ -52,7 +54,7 @@ const HeroSection = ({
   ],
 }: HeroSectionProps) => {
   return (
-    <section className="w-full h-[400px] bg-gradient-to-r from-primary/20 via-purple-500/20 to-pink-500/20 relative overflow-hidden">
+    <section className="w-full min-h-[600px] bg-gradient-to-r from-primary/20 via-purple-500/20 to-pink-500/20 relative overflow-hidden">
       {/* Background Pattern */}
       <div className="absolute inset-0 bg-grid-white/10" />
       <BubbleAnimation
@@ -64,30 +66,36 @@ const HeroSection = ({
       />
 
       <div className="container mx-auto px-4 h-full">
-        <div className="flex flex-col items-center justify-center text-center pt-16 pb-8">
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="text-4xl md:text-5xl font-bold text-foreground mb-4"
-          >
-            {title}
-          </motion.h1>
-
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-lg text-muted-foreground max-w-2xl mb-8"
-          >
-            {subtitle}
-          </motion.p>
-
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center pt-16 pb-8">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="flex items-center gap-4"
+            initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            className="text-left"
+          >
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="text-4xl md:text-6xl font-bold text-foreground mb-4 tracking-tight"
+            >
+              <AnimatedGradientText>{title}</AnimatedGradientText>
+            </motion.h1>
+
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="text-lg text-muted-foreground max-w-2xl mb-8"
+            >
+              {subtitle}
+            </motion.p>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            className="flex flex-col items-center gap-4"
           >
             <div className="relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-5 w-5" />

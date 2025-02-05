@@ -1,6 +1,7 @@
 import React from "react";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
+import { motion } from "framer-motion";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -28,22 +29,65 @@ const Header = ({
   ],
   cartItemCount = 0,
 }: HeaderProps) => {
+  const containerVariants = {
+    hidden: { opacity: 0, y: -20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.5,
+        staggerChildren: 0.1,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, x: -20 },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: {
+        type: "spring",
+        stiffness: 100,
+      },
+    },
+  };
+
   return (
-    <header className="w-full h-20 border-b border-border/10 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <motion.header
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+      className="sticky top-0 z-50 w-full h-20 border-b border-border/10 bg-background/95 backdrop-blur-md supports-[backdrop-filter]:bg-background/60"
+    >
       <div className="container mx-auto h-full px-4 flex items-center justify-between">
-        <div className="flex items-center gap-8">
-          <a href="/" className="text-2xl font-bold text-primary">
+        <motion.div
+          className="flex items-center gap-8"
+          variants={containerVariants}
+        >
+          <motion.a
+            href="/"
+            className="text-2xl font-bold text-primary"
+            variants={itemVariants}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
             MarketPlace
-          </a>
+          </motion.a>
 
           <NavigationMenu>
             <NavigationMenuList>
               <NavigationMenuItem>
                 <NavigationMenuTrigger>Categories</NavigationMenuTrigger>
                 <NavigationMenuContent>
-                  <ul className="grid w-[400px] gap-3 p-4">
+                  <motion.ul
+                    className="grid w-[400px] gap-3 p-4"
+                    variants={containerVariants}
+                    initial="hidden"
+                    animate="visible"
+                  >
                     {categories.map((category) => (
-                      <li key={category}>
+                      <motion.li key={category} variants={itemVariants}>
                         <NavigationMenuLink asChild>
                           <a
                             href={`#${category.toLowerCase().replace(/ /g, "-")}`}
@@ -52,17 +96,20 @@ const Header = ({
                             {category}
                           </a>
                         </NavigationMenuLink>
-                      </li>
+                      </motion.li>
                     ))}
-                  </ul>
+                  </motion.ul>
                 </NavigationMenuContent>
               </NavigationMenuItem>
             </NavigationMenuList>
           </NavigationMenu>
-        </div>
+        </motion.div>
 
-        <div className="flex items-center gap-4">
-          <div className="relative w-64">
+        <motion.div
+          className="flex items-center gap-4"
+          variants={containerVariants}
+        >
+          <motion.div className="relative w-64" variants={itemVariants}>
             <Input
               type="search"
               placeholder="Search products..."
@@ -70,21 +117,37 @@ const Header = ({
               onChange={(e) => onSearch(e.target.value)}
             />
             <Search className="absolute right-2 top-2.5 h-5 w-5 text-muted-foreground" />
-          </div>
+          </motion.div>
 
-          <Button variant="outline" size="icon" className="relative">
-            <ShoppingCart className="h-5 w-5" />
-            {cartItemCount > 0 && (
-              <span className="absolute -top-2 -right-2 h-5 w-5 rounded-full bg-primary text-primary-foreground text-xs flex items-center justify-center">
-                {cartItemCount}
-              </span>
-            )}
-          </Button>
+          <motion.div variants={itemVariants}>
+            <Button
+              variant="outline"
+              size="icon"
+              className="relative"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <ShoppingCart className="h-5 w-5" />
+              {cartItemCount > 0 && (
+                <motion.span
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  className="absolute -top-2 -right-2 h-5 w-5 rounded-full bg-primary text-primary-foreground text-xs flex items-center justify-center"
+                >
+                  {cartItemCount}
+                </motion.span>
+              )}
+            </Button>
+          </motion.div>
 
-          <Button>Sign In</Button>
-        </div>
+          <motion.div variants={itemVariants}>
+            <Button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              Sign In
+            </Button>
+          </motion.div>
+        </motion.div>
       </div>
-    </header>
+    </motion.header>
   );
 };
 
